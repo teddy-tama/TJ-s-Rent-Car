@@ -1,0 +1,34 @@
+<%- include('_partials/head') %>
+    <%- include('_partials/navbar') %>
+    <div class="container">
+        <h1 class='mt-5'>User Detail</h1>
+        <div class="card mb-5">
+			<div class="container-fliud py-5">
+                <div class="details col-md-6">
+                    <h3 class="product-title text-capitalize">Name: <%= data.getFullName() %></h3>
+                    <p class="product-description text-capitalize">Phone Number: <%=data.phone%>.</p>
+				</div>
+            </div>
+        </div>
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Car Type</th>
+                <th scope="col">Owner Name</th>
+                <th scope="col">Date</th>
+              </tr>
+            </thead>
+            <tbody>
+                <% data.Admins.forEach((el,i)=>{ %>
+              <tr>
+                <th scope="row"><%= i+1 %></th>
+                <td><%= el.Car.type %></td>
+                <td><%= el.full_name %></td>
+                <td><%= el.Car.updatedAt.toLocaleDateString('id') %></td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
+    </div>
+<%- include('_partials/script') %>

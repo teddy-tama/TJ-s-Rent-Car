@@ -24,7 +24,7 @@
                             <dd><%= data.Admin.full_name %></dd>
                             <%if(data.UserId){%>
                                 <dt>Penyewa</dt>
-                                <dd><%= data.User.first_name %></dd>
+                                <dd><%= data.User.getFullName() %></dd>
                                 <%}%>
                         </dl>
 					</div>

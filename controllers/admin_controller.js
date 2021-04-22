@@ -1,4 +1,4 @@
-const { Admin, User } = require('../models');
+const { Admin, User, Car } = require('../models');
 
 module.exports = class Controller {
 	static getAll(req, res) {
@@ -19,11 +19,9 @@ module.exports = class Controller {
 			include: [{ model: User }],
 		})
 			.then((data) => {
-				console.log(data);
 				res.render('admin_detail', { data });
 			})
 			.catch((err) => {
-				console.log(err);
 				res.send(err);
 			});
 	}

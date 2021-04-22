@@ -17,7 +17,6 @@ module.exports = class Controller {
 			include: [{ model: Admin }],
 		})
 			.then((respond) => {
-				console.log(JSON.stringify(respond, null, 2));
 				let data = respond.map((el) => {
 					el.price = moneyFormatter(el.price);
 					return el;
@@ -25,13 +24,12 @@ module.exports = class Controller {
 				res.render('car_list', { data });
 			})
 			.catch((err) => {
-				console.log(err);
 				res.send(err);
 			});
 	}
 
 	static getAdd(req, res) {
-		Admin.findAll({ order: [['full_name', 'ASC']] })
+		Admin.findOne({ where: { id: req.session.dataLogin.AdminId } })
 			.then((data) => {
 				res.render('car_add', { data });
 			})
@@ -54,13 +52,12 @@ module.exports = class Controller {
 					detail: req.body.detail,
 					image: req.file.filename,
 					price: req.body.price,
-					AdminId: 1, ///<----- id dari session
+					AdminId: req.session.dataLogin.AdminId,
 				})
 					.then(() => {
 						res.redirect('/car');
 					})
 					.catch((err) => {
-						console.log(err);
 						res.send(err);
 					});
 			}
@@ -80,7 +77,6 @@ module.exports = class Controller {
 				res.render('car_edit', { data });
 			})
 			.catch((err) => {
-				console.log(err);
 				res.send(err);
 			});
 	}
@@ -107,7 +103,6 @@ module.exports = class Controller {
 						res.redirect('/car');
 					})
 					.catch((err) => {
-						console.log(err);
 						res.send(err);
 					});
 			}
@@ -150,7 +145,26 @@ module.exports = class Controller {
 				res.render('car_detail', { data });
 			})
 			.catch((err) => {
-				console.log(err);
+				res.send(err);
+			});
+	}
+
+	static addUser(req, res) {
+		Car.update(
+			{
+				UserId: req.session.dataLogin.AdminId,
+				status: 'Telah Disewa',
+			},
+			{
+				where: {
+					id: req.params.id,
+				},
+			}
+		)
+			.then(() => {
+				res.redirect('/car');
+			})
+			.catch((err) => {
 				res.send(err);
 			});
 	}

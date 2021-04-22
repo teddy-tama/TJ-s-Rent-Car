@@ -7,15 +7,17 @@
           <tr>
             <th scope="col">Name</th>
             <th scope="col">Phone Number</th>
+            <th scope="col">Email</th>
             <th scope="col">Action</th>
           </tr>
         </thead>
         <tbody>
             <%data.forEach(el=>{%>
           <tr>
-            <td><%=el.full_name%></td>
-            <td><%= el.phone_number %></td>
-            <td><a href="/admin/<%= el.id %>" class="btn btn-primary">Detail</a></td>
+            <td><%=el.getFullName()%></td>
+            <td><%= el.phone %></td>
+            <td><%= el.email %></td>
+            <td><a href="/user/<%= el.id %>" class="btn btn-primary">Detail</a></td>
           </tr>
           <% }) %>
         </tbody>

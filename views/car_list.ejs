@@ -22,7 +22,7 @@
             </ul>
             <div class="card-body">
               <a href="/car/<%= el.id %>" class="card-link">Detail</a>
-              <a href="/car/<%= el.id %>/add_user" class="card-link btn-link <%= el.status!=='Belum Disewakan' ? 'disabled' : '' %>" >Sewa</a>
+              <a href="/car/<%= el.id %>/add_user" class="card-link btn-link <%= el.status!=='Tersedia' ? 'disabled' : '' %>" >Sewa</a>
               <a href="/car/edit/<%=el.id%>" class="card-link">Edit</a>
               <a href="/car/delete/<%= el.id %>" class="card-link">Hapus</a>
             </div>

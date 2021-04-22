@@ -10,5 +10,6 @@ router.get('/edit/:id', Controller.getEdit);
 router.post('/edit/:id', Controller.editCar);
 router.get('/delete/:id', Controller.deleteCar);
 router.get('/:id', Controller.getDetail);
+router.get('/:id/add_user', Controller.addUser);
 
 module.exports = router;
