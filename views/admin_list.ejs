@@ -1,0 +1,25 @@
+<%- include('_partials/head') %>
+<%- include('_partials/navbar') %>
+  <div class="container">
+    <h1 class='mt-3 text-center'>Welcome!</h1>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Phone Number</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+            <%data.forEach(el=>{%>
+          <tr>
+            <td><%=el.full_name%></td>
+            <td><%= el.phone_number %></td>
+            <td>Aksi</td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    
+  </div>
+<%- include('_partials/script') %>

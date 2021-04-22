@@ -1,9 +1,30 @@
-const { Admin } = require('../models');
+const { Admin, User } = require('../models');
 
 module.exports = class Controller {
-	static getAll(req, res) {}
+	static getAll(req, res) {
+		Admin.findAll()
+			.then((data) => {
+				res.render('admin_list', { data });
+			})
+			.catch((err) => {
+				res.send(err);
+			});
+	}
 
-	static getRentals(req, res) {}
-	static getAdd(req, res) {}
-	static addCar(req, res) {}
+	static getRentals(req, res) {
+		Admin.findOne({
+			where: {
+				id: req.params.id,
+			},
+			include: [{ model: User }],
+		})
+			.then((data) => {
+				console.log(data);
+				res.render('admin_detail', { data });
+			})
+			.catch((err) => {
+				console.log(err);
+				res.send(err);
+			});
+	}
 };
