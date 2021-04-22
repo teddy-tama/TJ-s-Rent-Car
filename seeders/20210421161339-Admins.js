@@ -18,6 +18,8 @@ module.exports = {
 			data.push({
 				full_name: faker.name.findName(),
 				phone_number: faker.phone.phoneNumber(),
+				email: faker.internet.email(),
+				password: faker.internet.password(),
 				createdAt: new Date(),
 				updatedAt: new Date(),
 			});

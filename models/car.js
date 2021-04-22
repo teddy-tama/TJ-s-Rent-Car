@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
 		static associate(models) {
 			// define association here
 			Car.belongsTo(models.Admin, { foreignKey: 'AdminId' });
+			Car.belongsTo(models.User, { foreignKey: 'UserId' });
 		}
 	}
 	Car.init(
@@ -18,6 +19,8 @@ module.exports = (sequelize, DataTypes) => {
 			image: DataTypes.STRING,
 			detail: DataTypes.STRING,
 			price: DataTypes.FLOAT,
+			UserId: DataTypes.INTEGER,
+			AdminId: DataTypes.INTEGER,
 			status: DataTypes.STRING,
 		},
 		{

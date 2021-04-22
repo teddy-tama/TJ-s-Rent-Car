@@ -2,9 +2,17 @@ const express = require('express');
 const app = express();
 const router = require('./routes');
 const port = 3000;
+const session = require('express-session')
 
 app.set('view engine', 'ejs');
-app.set(express.urlencoded({ extended: true }));
+
+app.use(session({
+	secret: 'rent car',
+	resave: false,
+	saveUninitialized: true,
+}))
+
+app.use(express.urlencoded({ extended: true }));
 
 app.use(router);
 

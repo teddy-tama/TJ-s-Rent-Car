@@ -20,6 +20,7 @@ module.exports = {
 				detail: `${faker.vehicle.color()} ${faker.vehicle.model()} ${faker.vehicle.type()}`,
 				image: faker.image.imageUrl(),
 				price: faker.commerce.price(),
+				UserId: faker.random.arrayElement([1, 2, 3, 4, 5]),
 				AdminId: faker.random.arrayElement([1, 2, 3, 4, 5]),
 				status: faker.random.arrayElement(['Tersedia', 'Telah Disewa']),
 				createdAt: new Date(),
