@@ -1,13 +1,26 @@
 const { Car, Admin } = require('../models');
 const multer = require('multer');
-const upload = multer({ dest: `${process.cwd()}/public/img` });
+const path = require('path');
+const moneyFormatter = require('../helpers/moneyFormatter');
+
+const storage = multer.diskStorage({
+	destination: './public/img/',
+	filename: (req, file, cb) => {
+		cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+	},
+});
 
 module.exports = class Controller {
 	static getAll(req, res) {
 		Car.findAll({
 			include: [{ model: Admin }],
 		})
-			.then((data) => {
+			.then((respond) => {
+				console.log(respond);
+				let data = respond.map((el) => {
+					el.price = moneyFormatter(el.price);
+					return el;
+				});
 				res.render('car_list', { data });
 			})
 			.catch((err) => {
@@ -25,20 +38,53 @@ module.exports = class Controller {
 			});
 	}
 
+	static getAdd(req, res) {
+		Admin.findAll({ order: [['full_name', 'ASC']] })
+			.then((data) => {
+				res.render('car_add', { data });
+			})
+			.catch((err) => {
+				res.send(err);
+			});
+	}
+
 	static addCar(req, res) {
-		upload
-			.single('image')
-			.then(() => {
-				return Car.create({
+		const upload = multer({
+			storage,
+		}).single('image');
+
+		upload(req, res, (err) => {
+			if (err) {
+				res.send(err);
+			} else {
+				Car.create({
 					type: req.body.type,
 					detail: req.body.detail,
-					image: file.name,
-					price: req.files.price,
+					image: req.file.filename,
+					price: req.body.price,
 					AdminId: 1, ///<----- id dari session
-				});
-			})
-			.then(() => {
-				res.redirect('/car');
+				})
+					.then(() => {
+						res.redirect('/car');
+					})
+					.catch((err) => {
+						console.log(err);
+						res.send(err);
+					});
+			}
+		});
+	}
+
+	static getEdit(req, res) {
+		Car.findAll({
+			where: {
+				id: req.params.id,
+			},
+			include: Admin,
+		})
+			.then((respond) => {
+				let data = respond[0];
+				res.render('car_edit', { data });
 			})
 			.catch((err) => {
 				console.log(err);
@@ -46,9 +92,72 @@ module.exports = class Controller {
 			});
 	}
 
-	static getEdit(req, res) {}
+	static editCar(req, res) {
+		const upload = multer({
+			storage,
+		}).single('image');
 
-	static editCar(req, res) {}
+		upload(req, res, (err) => {
+			if (err) {
+				res.send(err);
+			} else {
+				let data = {
+					type: req.body.type,
+					detail: req.body.detail,
+					price: +req.body.price,
+				};
 
-	static deleteCar(req, res) {}
+				req.file ? (data.image = req.file.filename) : '';
+
+				Car.update(data, { where: { id: req.params.id } })
+					.then(() => {
+						res.redirect('/car');
+					})
+					.catch((err) => {
+						console.log(err);
+						res.send(err);
+					});
+			}
+		});
+	}
+
+	static deleteCar(req, res) {
+		Car.destroy({
+			where: {
+				id: req.params.id,
+			},
+		})
+			.then(() => {
+				res.redirect('/car');
+			})
+			.catch((err) => {
+				res.send(err);
+			});
+	}
+
+	static getDetail(req, res) {
+		Car.findAll({
+			where: {
+				id: req.params.id,
+			},
+			include: [
+				{
+					model: Admin,
+					required: false,
+				},
+				{
+					model: User,
+					required: false,
+				},
+			],
+		})
+			.then((respond) => {
+				let data = respond[0];
+				res.render('car_detail', { data });
+			})
+			.catch((err) => {
+				console.log(err);
+				res.send(err);
+			});
+	}
 };
