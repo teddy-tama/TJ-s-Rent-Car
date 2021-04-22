@@ -9,7 +9,8 @@
 						
 						<div class="preview-pic tab-content">
 						  <div class="tab-pane active" id="pic-1">
-                              <img src="/img/<%= data.image  %>" class="img-thumbnail"/>
+                            <%let word=''; for(let i = 0; i < 4; i++) {word+=data.image[i]} %>
+                              <img src="<%= word==='http' ? data.image : `/img/${data.image}`%>" class="img-thumbnail"/>
                             </div>
 						</div>
 						
