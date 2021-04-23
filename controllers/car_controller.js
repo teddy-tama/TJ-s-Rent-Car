@@ -13,7 +13,7 @@ const storage = multer.diskStorage({
 module.exports = class Controller {
 	static getAll(req, res) {
 		let session = req.session.dataLogin.AdminId ? req.session.dataLogin.AdminId : '';
-		Car.findAll({
+		Car.findCars({
 			attributes: ['id', 'type', 'detail', 'image', 'price', 'status', 'UserId', 'AdminId'],
 			include: [{ model: Admin }],
 		})
@@ -67,7 +67,7 @@ module.exports = class Controller {
 	}
 
 	static getEdit(req, res) {
-		Car.findAll({
+		Car.findCars({
 			attributes: ['id', 'type', 'detail', 'image', 'price', 'status', 'UserId', 'AdminId'],
 			where: {
 				id: req.params.id,
@@ -126,7 +126,7 @@ module.exports = class Controller {
 	}
 
 	static getDetail(req, res) {
-		Car.findAll({
+		Car.findCars({
 			attributes: ['id', 'type', 'detail', 'image', 'price', 'status', 'UserId', 'AdminId'],
 			where: {
 				id: req.params.id,
