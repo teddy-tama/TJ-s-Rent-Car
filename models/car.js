@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
 		{
 			hooks: {
 				beforeCreate: (instance, options) => {
-					instance.status = 'Belum Disewakan';
+					instance.status = 'Tersedia';
 				},
 			},
 			sequelize,

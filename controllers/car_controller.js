@@ -58,6 +58,7 @@ module.exports = class Controller {
 						res.redirect('/car');
 					})
 					.catch((err) => {
+						console.log(err);
 						res.send(err);
 					});
 			}
@@ -150,9 +151,11 @@ module.exports = class Controller {
 	}
 
 	static addUser(req, res) {
+		console.log(req.params.id);
+		console.log(req.session);
 		Car.update(
 			{
-				UserId: req.session.dataLogin.AdminId,
+				UserId: req.session.dataLogin.UserId,
 				status: 'Telah Disewa',
 			},
 			{
@@ -161,10 +164,12 @@ module.exports = class Controller {
 				},
 			}
 		)
-			.then(() => {
+			.then((data) => {
+				// console.log(JSON.stringify(data, nul, 2));
 				res.redirect('/car');
 			})
 			.catch((err) => {
+				// console.log(err);
 				res.send(err);
 			});
 	}
