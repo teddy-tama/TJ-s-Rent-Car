@@ -8,31 +8,25 @@ module.exports = class Controller {
 	static postLogin(req, res) {
 		let { email, password } = req.body;
 		req.session.isLogin = true;
-		Promise.all([
-			Admin.findOne({ where: { email } }),
-			User.findOne({ where: { email } })
-		])
-			.then(data => {
-				// console.log(JSON.stringify(data[1], null, 2));
+		Promise.all([Admin.findOne({ where: { email } }), User.findOne({ where: { email } })])
+			.then((data) => {
 				if (data[0] === null) {
 					req.session.dataLogin = {
 						UserId: data[1].id,
 						role: 'User',
 					};
-					console.log(req.session);
 					res.redirect('/car');
 				} else {
 					req.session.dataLogin = {
 						AdminId: data[0].id,
 						role: 'Admin',
 					};
-					console.log(req.session);
 					res.redirect('/car');
 				}
 			})
-			.catch(err => {
-				res.send(err)
-			})
+			.catch((err) => {
+				res.send(err);
+			});
 
 		// Admin.findAll({
 		// 	include: User,

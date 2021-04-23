@@ -17,7 +17,6 @@ module.exports = class Controller {
 			include: [Admin],
 		})
 			.then((data) => {
-				console.log(JSON.stringify(data, null, 2));
 				res.render('user_detail', { data });
 			})
 			.catch((err) => {
